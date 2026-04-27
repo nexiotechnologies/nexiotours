@@ -1,0 +1,71 @@
+{
+  "count": 4,
+  "next": null,
+  "previous": null,
+  "results": [
+    {
+      "id": 4,
+      "author_name": "admin",
+      "title": "Sky-High Luxury: The Best Rooftop Bars in Dubai",
+      "slug": "sky-high-luxury-the-best-rooftop-bars-in-dubai",
+      "category": "Luxury",
+      "excerpt": "Sip cocktails under the stars while overlooking the world's most stunning skyline.",
+      "content": "Dubai's skyline is a testament to human ambition, and there's no better place to witness it than from above. \n\nFrom the sophisticated vibes of Atmosphere at the Burj Khalifa to the beachside glamour of Mercury Lounge, we've curated the most exclusive rooftops in the city. \n\nDiscover where to find the best mixologists and the most breathtaking views of the Arabian Gulf.",
+      "cover_image": "image/upload/https://images.unsplash.com/photo-1512453979798-5ea266f8880c?auto=format&fit=crop&w=1200&q=80",
+      "status": "published",
+      "is_featured": false,
+      "views_count": 0,
+      "likes_count": 0,
+      "comments": [],
+      "created_at": "2026-03-24T23:27:32.418545Z"
+    },
+    {
+      "id": 3,
+      "author_name": "admin",
+      "title": "Mastering the Art of Carry-On Travel",
+      "slug": "mastering-the-art-of-carry-on-travel",
+      "category": "Tips & Tricks",
+      "excerpt": "Pack like a pro with our ultimate guide to living out of a single bag for any length of trip.",
+      "content": "Travel is about freedom, and nothing says freedom like skipping the baggage claim. \n\nWhether you're heading for a weekend in Paris or a month in Southeast Asia, packing light is the ultimate travel hack. It saves time, money, and stress. \n\nOur pro tips cover everything from compression cubes to the 'three-layer rule'. Learn how to mix and match your wardrobe to handle any climate without the bulk.",
+      "cover_image": "image/upload/https://images.unsplash.com/photo-1473625247510-8ceb1760943f?auto=format&fit=crop&w=1200&q=80",
+      "status": "published",
+      "is_featured": false,
+      "views_count": 0,
+      "likes_count": 0,
+      "comments": [],
+      "created_at": "2026-03-24T23:27:32.344811Z"
+    },
+    {
+      "id": 2,
+      "author_name": "admin",
+      "title": "A Foodie's Guide to Mumbai's Night Markets",
+      "slug": "a-foodies-guide-to-mumbais-night-markets",
+      "category": "Food & Culture",
+      "excerpt": "From spicy Vada Pav to sweet Jalebis, we explore the vibrant flavors of Mumbai after the sun goes down.",
+      "content": "Mumbai never sleeps, and neither do its street food stalls. \n\nAs night falls, the lanes of Mohammad Ali Road and Khau Galli transform into a culinary stage. The air is thick with the aroma of Charcoal-grilled kebabs and fresh buttered pav. \n\nExperience the chaos and the soul of the city through its most iconic dishes. We take you through the top 5 stalls that have been serving generations of Mumbaikars.",
+      "cover_image": "image/upload/https://images.unsplash.com/photo-1518013391915-e443195da9a0?auto=format&fit=crop&w=1200&q=80",
+      "status": "published",
+      "is_featured": false,
+      "views_count": 0,
+      "likes_count": 0,
+      "comments": [],
+      "created_at": "2026-03-24T23:27:32.265436Z"
+    },
+    {
+      "id": 1,
+      "author_name": "admin",
+      "title": "Hidden Paradise: The Secret Waterfalls of Bali",
+      "slug": "hidden-paradise-the-secret-waterfalls-of-bali",
+      "category": "Travel Guide",
+      "excerpt": "Escape the crowds and discover the untouched beauty of Bali's hidden cascades in the heart of the jungle.",
+      "content": "Bali is famous for its beaches, but the real magic lies deep within its lush jungles. \n\nMany travelers stick to the southern resorts, but if you venture north towards Tukad Cepung or Sekumpul, you'll find paradise. These waterfalls are often overlooked, offering a serene escape where the only sound is the roar of falling water.\n\nOur guide reveals the best time to visit and how to navigate the tropical trails to reach these hidden gems safely. Don't forget your camera\u2014the light rays hitting the canyon walls are purely cinematic.",
+      "cover_image": "image/upload/https://images.unsplash.com/photo-1512100356956-c1227c396059?auto=format&fit=crop&w=1200&q=80",
+      "status": "published",
+      "is_featured": true,
+      "views_count": 0,
+      "likes_count": 0,
+      "comments": [],
+      "created_at": "2026-03-24T23:27:32.170564Z"
+    }
+  ]
+}
