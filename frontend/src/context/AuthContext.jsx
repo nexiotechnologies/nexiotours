@@ -10,48 +10,49 @@ export function AuthProvider({ children }) {
   const { isLoaded: signUpLoaded, signUp: clerkSignUp, setActive: setSignUpActive } = useSignUp();
 
   const [loading, setLoading] = useState(true);
-  const [role, setRole] = useState(null);
-  const [displayName, setDisplayName] = useState(null);
+  const [role, setRole] = useState(() => localStorage.getItem('user_role')); // Initialize from cache
+  const [displayName, setDisplayName] = useState(() => localStorage.getItem('user_name'));
 
   const syncProfile = async () => {
     if (isLoaded && user) {
       try {
         const api = (await import('../utils/api')).default;
-        // Add a small debounce or check if already syncing
         const res = await api.get(`/users/profile/?t=${Date.now()}`);
 
         if (res.data) {
           if (res.data.role) {
             const backendRole = res.data.role.toLowerCase().trim();
             setRole(backendRole);
-            // Sync Clerk metadata if it differs
+            localStorage.setItem('user_role', backendRole); // Persist
             if (user.unsafeMetadata?.role !== backendRole) {
               await user.update({ unsafeMetadata: { ...user.unsafeMetadata, role: backendRole } });
             }
-          } else {
-            // Fallback to metadata
-            const rawRole = user.publicMetadata?.role || user.unsafeMetadata?.role;
-            if (rawRole) setRole(String(rawRole).toLowerCase());
           }
-          if (res.data.display_name) setDisplayName(res.data.display_name);
+          if (res.data.display_name) {
+            setDisplayName(res.data.display_name);
+            localStorage.setItem('user_name', res.data.display_name);
+          }
         }
       } catch (err) {
         console.warn("Profile sync failed", err);
-        const rawRole = user.publicMetadata?.role || user.unsafeMetadata?.role;
-        setRole(String(rawRole || 'traveler').toLowerCase());
       } finally {
         setLoading(false);
       }
     } else if (isLoaded && !user) {
+      localStorage.removeItem('user_role');
+      localStorage.removeItem('user_name');
       setLoading(false);
     }
   };
 
-  // Immediate effect for role from metadata
   useEffect(() => {
     if (isLoaded && user) {
       const rawRole = user.publicMetadata?.role || user.unsafeMetadata?.role;
-      if (rawRole) setRole(String(rawRole).toLowerCase());
+      if (rawRole) {
+        const r = String(rawRole).toLowerCase();
+        setRole(r);
+        localStorage.setItem('user_role', r);
+      }
       setDisplayName(user.fullName || null);
     }
   }, [isLoaded, user]);
@@ -116,14 +117,26 @@ export function AuthProvider({ children }) {
 
   const signOut = async () => {
     try {
-      localStorage.removeItem('access_token');
-      // Use Clerk's sign out
-      await clerkSignOut();
-      // Hard redirect to home to clean up all memory state
-      window.location.href = '/';
+      setLoading(true);
+      // 1. Clear ALL local caches immediately
+      localStorage.clear(); 
+      sessionStorage.clear();
+      
+      // 2. Clear state
+      setRole(null);
+      setDisplayName(null);
+
+      // 3. Tell Clerk to sign out and wait for it
+      if (clerkSignOut) {
+        await clerkSignOut();
+      }
+      
+      // 4. Force a hard redirect to home
+      window.location.replace('/');
     } catch (err) {
       console.error("Sign out failed, forcing redirect", err);
-      window.location.href = '/';
+      localStorage.clear();
+      window.location.replace('/');
     }
   };
 
@@ -155,7 +168,8 @@ export function AuthProvider({ children }) {
       user: user || null,
       role,
       displayName,
-      loading: loading, // Use our internal state which has a guaranteed 2.5s timeout
+      loading: loading,
+      isLoaded: isLoaded,
       signUp, signIn, signInWithGoogle, signOut,
       resetPassword, updatePassword,
       syncProfile

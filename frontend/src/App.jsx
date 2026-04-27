@@ -31,26 +31,41 @@ import ClerkAuthHandler from "./components/common/ClerkAuthHandler";
 import { useAuth } from "./context/AuthContext";
 
 const OnboardingFlow = ({ children }) => {
-  const { user, loading, role } = useAuth();
+  const { user, loading, isLoaded, role } = useAuth();
+  const [showSplash, setShowSplash] = React.useState(false);
+
+  React.useEffect(() => {
+    let timer;
+    if ((loading || !isLoaded) && !role) {
+      timer = setTimeout(() => setShowSplash(true), 1000); // 1s grace period
+    } else {
+      setShowSplash(false);
+    }
+    return () => clearTimeout(timer);
+  }, [loading, isLoaded, role]);
 
   const currentPath = window.location.pathname;
   const isAuthPage = ['/', '/onboarding', '/login', '/register', '/404'].includes(currentPath);
 
-  // Still show loading for most pages, but don't block /onboarding if Clerk is ready enough
-  if (loading && !isAuthPage) return (
-    <div style={{ minHeight: "100vh", background: "#050510", display: "flex", alignItems: "center", justifyContent: "center", flexDirection: "column", gap: 20 }}>
-      {/* Dynamic Background Gradients */}
-      <div style={{ position: 'fixed', top: '10%', left: '5%', width: '40%', height: '40%', background: 'radial-gradient(circle, rgba(0, 122, 255, 0.05) 0%, transparent 70%)', filter: 'blur(100px)', zIndex: 0 }} />
-      <div style={{ position: 'fixed', bottom: '10%', right: '5%', width: '40%', height: '40%', background: 'radial-gradient(circle, rgba(175, 82, 222, 0.05) 0%, transparent 70%)', filter: 'blur(100px)', zIndex: 0 }} />
+  // Show loading until our internal safety timer (guaranteed 2.5s) is ready
+  // OPTIMIZATION: If we already have a role (from cache), skip the splash entirely
+  if (loading && !role && !isAuthPage) {
+    if (!showSplash) return null; // Keep screen blank (black) for the first 400ms
+    return (
+      <div style={{ minHeight: "100vh", background: "#050510", display: "flex", alignItems: "center", justifyContent: "center", flexDirection: "column", gap: 20 }}>
+        {/* Dynamic Background Gradients */}
+        <div style={{ position: 'fixed', top: '10%', left: '5%', width: '40%', height: '40%', background: 'radial-gradient(circle, rgba(0, 122, 255, 0.05) 0%, transparent 70%)', filter: 'blur(100px)', zIndex: 0 }} />
+        <div style={{ position: 'fixed', bottom: '10%', right: '5%', width: '40%', height: '40%', background: 'radial-gradient(circle, rgba(175, 82, 222, 0.05) 0%, transparent 70%)', filter: 'blur(100px)', zIndex: 0 }} />
 
-      <div style={{ width: 40, height: 40, borderRadius: '50%', border: '3px solid rgba(255,255,255,0.05)', borderTopColor: '#007AFF', animation: 'spin 1s linear infinite' }} />
-      <style>{`@keyframes spin { to { transform: rotate(360deg); } }`}</style>
-      <span style={{ color: 'rgba(255,255,255,0.4)', fontSize: 13, fontWeight: 600, letterSpacing: '0.05em' }}>VERIFYING SESSION...</span>
-    </div>
-  );
+        <div style={{ width: 40, height: 40, borderRadius: '50%', border: '3px solid rgba(255,255,255,0.05)', borderTopColor: '#007AFF', animation: 'spin 1s linear infinite' }} />
+        <style>{`@keyframes spin { to { transform: rotate(360deg); } }`}</style>
+        <span style={{ color: 'rgba(255,255,255,0.4)', fontSize: 13, fontWeight: 600, letterSpacing: '0.05em' }}>VERIFYING SESSION...</span>
+      </div>
+    );
+  }
 
-  // Only redirect if Clerk is definitely finished loading AND we confirmed there is no role
-  if (!loading && user && !role && !isAuthPage) {
+  // If logged in but no role, and not already on onboarding/login/register
+  if (isLoaded && user && !role && !isAuthPage) {
     return <Navigate to="/onboarding" replace />;
   }
   return children;
@@ -71,9 +86,9 @@ export default function App() {
                 <Route path="/register" element={<RegisterPage />} />
                 <Route path="/onboarding" element={<OnboardingPage />} />
 
-                <Route path="/hidden-locations" element={<HiddenLocationsPage />} />
-                <Route path="/hidden-locations/:id" element={<HiddenLocationDetail />} />
-                <Route path="/hidden-locations/add" element={<ProtectedRoute><AddHiddenLocationPage /></ProtectedRoute>} />
+                <Route path="/hidden-gems" element={<HiddenLocationsPage />} />
+                <Route path="/hidden-gems/:id" element={<HiddenLocationDetail />} />
+                <Route path="/hidden-gems/add" element={<ProtectedRoute><AddHiddenLocationPage /></ProtectedRoute>} />
 
                 {/* Dynamic Vendor Listings */}
                 <Route path="/tours" element={<ListingPage type="tours" endpoint="/destinations/tours/" title="Tour Packages" subtitle="Curated travel experiences for your next adventure." />} />

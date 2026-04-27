@@ -1,12 +1,24 @@
 import React from "react";
 import { Navigate } from "react-router-dom";
-import { useUser } from "@clerk/react";
+import { useAuth } from "../../context/AuthContext";
 
 export default function ProtectedRoute({ children, allowedRoles }) {
-  const { user, isLoaded } = useUser();
+  const { user, isLoaded, role, loading } = useAuth();
+  const [showSplash, setShowSplash] = React.useState(false);
 
-  // Wait for Clerk to load (this is fast, just checking local session)
-  if (!isLoaded) {
+  React.useEffect(() => {
+    let timer;
+    if ((loading || !isLoaded) && !role) {
+      timer = setTimeout(() => setShowSplash(true), 800);
+    } else {
+      setShowSplash(false);
+    }
+    return () => clearTimeout(timer);
+  }, [loading, isLoaded, role]);
+
+  // Wait for session to load (guaranteed 2.5s safety timeout)
+  if (loading && !role) {
+    if (!showSplash) return null;
     return (
       <div style={{ minHeight: "100vh", background: "#050510", display: "flex", alignItems: "center", justifyContent: "center", flexDirection: "column", gap: 20 }}>
         <div style={{ width: 40, height: 40, borderRadius: '50%', border: '3px solid rgba(255,255,255,0.05)', borderTopColor: '#007AFF', animation: 'spin 1s linear infinite' }} />

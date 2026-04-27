@@ -81,7 +81,7 @@ export default function AddHiddenLocationPage() {
 
       await api.post('/community/hidden-locations/', payload);
       toast.success("Discovery shared with the community!");
-      navigate('/hidden-locations');
+      navigate('/hidden-gems');
     } catch (err) {
       console.error("Submit Error:", err);
       toast.error(err.response?.data?.error || err.message || "Failed to share discovery");
@@ -97,7 +97,7 @@ export default function AddHiddenLocationPage() {
       <div className="container" style={{ paddingTop: 140, paddingBottom: 120, maxWidth: 800 }}>
         <motion.button 
           initial={{ opacity: 0, x: -20 }} animate={{ opacity: 1, x: 0 }}
-          onClick={() => navigate('/hidden-locations')}
+          onClick={() => navigate('/hidden-gems')}
           style={{ background: 'none', border: 'none', color: 'var(--text-gray)', display: 'flex', alignItems: 'center', gap: 8, marginBottom: 40, cursor: 'pointer', fontWeight: 600 }}
         >
           <ArrowLeft size={18} /> Back to Gallery

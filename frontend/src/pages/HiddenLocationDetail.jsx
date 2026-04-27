@@ -28,7 +28,7 @@ export default function HiddenLocationDetail() {
       setLocation(res.data);
     } catch (err) {
       toast.error("Failed to load discovery details");
-      navigate('/hidden-locations');
+      navigate('/hidden-gems');
     } finally {
       setLoading(false);
     }
@@ -100,7 +100,7 @@ export default function HiddenLocationDetail() {
         <div className="container" style={{ position: 'absolute', bottom: 60, left: 40, right: 40 }}>
            <motion.button 
              initial={{ opacity: 0, x: -20 }} animate={{ opacity: 1, x: 0 }}
-             onClick={() => navigate('/hidden-locations')}
+             onClick={() => navigate('/hidden-gems')}
              style={{ background: 'rgba(255,255,255,0.1)', backdropFilter: 'blur(10px)', border: '1px solid rgba(255,255,255,0.1)', color: '#fff', padding: '12px 24px', borderRadius: 40, display: 'flex', alignItems: 'center', gap: 10, marginBottom: 40, cursor: 'pointer', fontWeight: 600, fontSize: 13 }}
            >
              <ArrowLeft size={18} /> Back to Discoveries

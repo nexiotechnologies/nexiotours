@@ -82,7 +82,7 @@ export default function HiddenLocationsPage() {
 
             {user && (
               <button
-                onClick={() => navigate('/hidden-locations/add')}
+                onClick={() => navigate('/hidden-gems/add')}
                 className="btn-primary"
                 style={{ display: 'flex', alignItems: 'center', gap: 10, margin: '0 auto 48px', padding: '14px 28px' }}
               >
@@ -154,7 +154,7 @@ export default function HiddenLocationsPage() {
                 viewport={{ once: true, margin: "-50px" }}
                 transition={{ duration: 0.8, delay: i * 0.1, ease: [0.16, 1, 0.3, 1] }}
                 className="glass-card"
-                onClick={() => navigate(`/hidden-locations/${loc.id}`)}
+                onClick={() => navigate(`/hidden-gems/${loc.id}`)}
                 style={{ overflow: 'hidden', cursor: 'pointer' }}
               >
                 <div style={{ height: 220, position: 'relative', overflow: 'hidden' }}>

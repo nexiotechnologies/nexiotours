@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { useUser } from "@clerk/react";
 import { motion, AnimatePresence } from "framer-motion";
@@ -55,7 +55,18 @@ export default function OnboardingPage() {
     }
   };
 
-  if (!user) return null;
+  useEffect(() => {
+    if (isLoaded && user && role && !isGlobalLoading) {
+      const normalizedRole = String(role).toLowerCase();
+      if (normalizedRole.includes('business') || normalizedRole.includes('provider')) {
+        navigate('/business', { replace: true });
+      } else {
+        navigate('/', { replace: true });
+      }
+    }
+  }, [isLoaded, user, role, isGlobalLoading, navigate]);
+
+  if (!user && isLoaded) return null;
 
   return (
     <div style={{ minHeight: "100vh", background: 'var(--bg-dark)', display: 'flex', flexDirection: 'column' }}>

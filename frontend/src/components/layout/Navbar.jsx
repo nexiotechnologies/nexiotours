@@ -33,14 +33,15 @@ export default function Navbar() {
       borderBottom: scrolled ? '1px solid rgba(255, 255, 255, 0.08)' : '1px solid transparent',
       transition: 'all 0.4s cubic-bezier(0.16, 1, 0.3, 1)'
     }}>
-      <Link to="/" style={{ display: 'flex', alignItems: 'center', gap: 10 }}>
+      <div style={{ display: 'flex', alignItems: 'center', gap: 10 }}>
         <div style={{ width: 32, height: 32, background: 'var(--accent-blue)', borderRadius: 8, display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
           <Globe size={18} color="#fff" />
         </div>
         <span style={{ fontWeight: 800, fontSize: 22, color: '#fff', letterSpacing: '-0.04em' }}>NexioTour</span>
-      </Link>
+      </div>
 
       <div className="desktop-only" style={{ display: 'flex', gap: '32px', alignItems: 'center' }}>
+        <Link to={isVendor ? "/business" : "/"} style={{ fontWeight: 700, fontSize: '14px', color: '#fff', whiteSpace: 'nowrap' }}>Home</Link>
         {['Tours', 'Hotels', 'Guides', 'Hidden Gems', 'Blog'].map((l) => (
           <Link 
             key={l} 
